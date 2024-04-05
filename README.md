@@ -58,7 +58,6 @@ For the latest version, check out the repo and call
     - [transaction_input](#transactioninput)
     - [transaction_output](#transactionoutput)
   - [Exporting the Blockchain](#exporting-the-blockchain)
-    - [Running in Docker](#running-in-docker)
     - [Command Reference](#command-reference)
       - [export_blocks_and_transactions](#exportblocksandtransactions)
       - [enrich_transactions](#enrichtransactions)
@@ -186,34 +185,6 @@ You can export blocks below `blocks`, there is no need to wait until the full sy
     ```
 
     In case `bitcoinetl` command is not available in PATH, use `python -m bitcoinetl` instead.
-
-### Running in Docker
-
-1. Install Docker https://docs.docker.com/install/
-
-1. Build a docker image
-    ```bash
-    > docker build --platform linux/x86_64 -t bitcoin-etl:latest .
-    > docker image ls
-    ```
-
-1. Run a container out of the image
-    ```bash
-    > docker run --platform linux/x86_64 -v $HOME/output:/bitcoin-etl/output bitcoin-etl:latest export_blocks_and_transactions --start-block 0 --end-block 500000 \
-        --provider-uri http://user:pass@localhost:8332 --blocks-output output/blocks.json --transactions-output output/transactions.json
-    ```
-
-1. Run streaming to console or Pub/Sub
-    ```bash
-    > docker build --platform linux/x86_64 -t bitcoin-etl:latest-streaming -f Dockerfile_with_streaming .
-    > echo "Stream to console"
-    > docker run --platform linux/x86_64 bitcoin-etl:latest-streaming stream -p http://user:pass@localhost:8332 --start-block 500000
-    > echo "Stream to Pub/Sub"
-    > docker run --platform linux/x86_64 -v /path_to_credentials_file/:/bitcoin-etl/ --env GOOGLE_APPLICATION_CREDENTIALS=/bitcoin-etl/credentials_file.json bitcoin-etl:latest-streaming stream -p http://user:pass@localhost:8332 --start-block 500000 --output projects/your-project/topics/crypto_bitcoin
-    ```
-
-1. Refer to https://github.com/blockchain-etl/bitcoin-etl-streaming for deploying the streaming app to
-Google Kubernetes Engine.
 
 ### Command Reference
 
